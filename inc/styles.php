@@ -27,7 +27,7 @@ function oria_custom_styles($custom) {
 	$rgba 			= oria_hex2rgba($primary_color);
 	if ( $primary_color != '#EF997F' ) {
 		$custom .= ".footer-widgets .widget-title,.owl-theme .owl-controls .owl-buttons div,.read-more,.entry-title a:hover,a, a:hover { color:" . esc_attr($primary_color) . "}"."\n";
-		$custom .= "#preloader-inner,.oria-slider .slide-title a,.read-more:hover,.nav-previous:hover,.nav-next:hover, button,.button,input[type=\"button\"],input[type=\"reset\"],input[type=\"submit\"] { background-color:" . esc_attr($primary_color) . "}"."\n";
+		$custom .= "#preloader-inner,.oria-slider .slide-title a,.read-more:hover,.nav-previous:hover,.nav-next:hover, button,.button,input[type=\"button\"],input[type=\"reset\"],input[type=\"submit\"] { background-color:" . esc_attr($primary_color) . "\n background: rgba(0,80,255,0.5); }"."\n";
 		$custom .= ".widget-title { border-color:" . esc_attr($primary_color) . "}"."\n";	
 		$custom .= ".sidebar-toggle,.social-navigation li a:hover,.main-navigation a:hover {background-color:" . esc_attr($rgba) . ";}" . "\n";
 	}
