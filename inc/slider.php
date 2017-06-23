@@ -2,7 +2,7 @@
 /**
  * Carousel template
  *
- * @package Oria
+ * @package
  */
 
 	//Scripts
@@ -28,18 +28,22 @@
 		function oria_slider_template() {
 	       
 	       	//Get the user choices
+		    $in_type    = get_theme_mod('carousel_post_type');
 	        $number     = get_theme_mod('carousel_number');
 	        $cat        = get_theme_mod('carousel_cat');
 	        $number     = ( ! empty( $number ) ) ? intval( $number ) : 6;
 	        $cat        = ( ! empty( $cat ) ) ? intval( $cat ) : '';
-
+		
 			$args = array(
+				'post_type'			    => $in_type,
 				'posts_per_page'		=> $number,
 				'post_status'   		=> 'publish',
-	            'cat'                   => $cat,
-	            'ignore_sticky_posts'   => true			
+			    'cat'				    => $cat,
+				// 'post__in' => array(520,528,699,509)
+	            'ignore_sticky_posts'   	=> true			
 			);
-			$query = new WP_Query( $args );	
+			$query = new WP_Query( $args );
+
 			if ( $query->have_posts() ) {
 			?>
 			<div class="oria-slider slider-loader">
@@ -47,12 +51,18 @@
 					<div class="slider-inner">
 					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
 						<div class="slide">
-							<?php if ( has_post_thumbnail() ) : ?>
+                        <?/**php the_ID()*/?>
+                        <a href="<?php the_permalink();?>" rel="bookmark">
+							<?php
+
+							if ( has_post_thumbnail() ) : ?>
 								<?php the_post_thumbnail( 'oria-carousel' ); ?>
 							<?php else : ?>
 								<?php echo '<img src="' . get_stylesheet_directory_uri() . '/images/placeholder.png"/>'; ?>
 							<?php endif; ?>
+							</a>
 							<?php the_title( sprintf( '<h3 class="slide-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h3>' ); ?>
+					
 						</div>
 					<?php endwhile; ?>
 					</div>
