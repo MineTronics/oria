@@ -236,6 +236,7 @@ function oria_customize_register( $wp_customize ) {
             'priority' => 10,
         )
     );
+
     //Category
     $wp_customize->add_setting( 'carousel_cat', array(
         'default'           => '',
@@ -248,6 +249,30 @@ function oria_customize_register( $wp_customize ) {
         'settings'  => 'carousel_cat',
         'priority'  => 11
     ) ) );
+
+    //Post Type post_type e.g. post, page, revision, attachment, my-post-type
+    $wp_customize->add_setting( 'carousel_post_type', array(
+        'post',
+	'page',
+	'revision',
+	'attachment'
+    ) );
+
+    $wp_customize->add_control( 
+	'carousel_post_type', array(
+        'label'     => __('Select which post type to show in the carousel', 'oria'),
+        'section'   => 'oria_carousel',
+        'settings'  => 'carousel_post_type',
+        'priority'  => 10,
+	'type'     => 'radio',
+	'choices'  => array(
+			'post'  => 'post',
+			'page' => 'page',
+			'revision' => 'revision',
+			'attachment' => 'attachment'
+		)
+    ) );
+
     //Autoplay speed
     $wp_customize->add_setting(
         'carousel_speed',
