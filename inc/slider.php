@@ -26,21 +26,28 @@
 	//Template
 	if ( ! function_exists( 'oria_slider_template' ) ) {
 		function oria_slider_template() {
-	       
-	       	//Get the user choices
-		    $in_type    = get_theme_mod('carousel_post_type');
-	        $number     = get_theme_mod('carousel_number');
-	        $cat        = get_theme_mod('carousel_cat');
-	        $number     = ( ! empty( $number ) ) ? intval( $number ) : 6;
-	        $cat        = ( ! empty( $cat ) ) ? intval( $cat ) : '';
-		
+		       	//Get the user choices
+			$in_type    = get_theme_mod('carousel_post_type'); /** default 'post' */
+			// $in_selctions = get_theme_mod('carousel_post_selections');
+		        $number     = get_theme_mod('carousel_number');
+		        $cat        = get_theme_mod('carousel_cat');
+	        	$number     = ( ! empty( $number ) ) ? intval( $number ) : 6;
+		        $cat        = ( ! empty( $cat ) ) ? intval( $cat ) : '';
+			$pages = array();
+			for ( $count = 1; $count <= $number; $count++ ) {
+				$mod = get_theme_mod( 'showcase-page-' . $count );
+				if ( 'page-none-selected' != $mod ) {
+					$pages[] = $mod;
+				}
+			}
 			$args = array(
-				'post_type'			    => $in_type,
+				'post_type'			=> $in_type,
 				'posts_per_page'		=> $number,
 				'post_status'   		=> 'publish',
-			    'cat'				    => $cat,
-				// 'post__in' => array(520,528,699,509)
-	            'ignore_sticky_posts'   	=> true			
+			        'cat'				=> $cat,
+				'post__in' 			=> $pages,
+	       			'ignore_sticky_posts'   	=> true,
+				'orderby' => 'post__in'
 			);
 			$query = new WP_Query( $args );
 
@@ -51,8 +58,7 @@
 					<div class="slider-inner">
 					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
 						<div class="slide">
-                        <?/**php the_ID()*/?>
-                        <a href="<?php the_permalink();?>" rel="bookmark">
+<a href="<?php the_permalink();?>" rel="bookmark">
 							<?php
 
 							if ( has_post_thumbnail() ) : ?>

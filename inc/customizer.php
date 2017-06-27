@@ -236,20 +236,17 @@ function oria_customize_register( $wp_customize ) {
             'priority' => 10,
         )
     );
-
     //Category
     $wp_customize->add_setting( 'carousel_cat', array(
         'default'           => '',
         'sanitize_callback' => 'absint',
     ) );
-
     $wp_customize->add_control( new oria_Categories_Dropdown( $wp_customize, 'carousel_cat', array(
         'label'     => __('Select which category to show in the carousel', 'oria'),
         'section'   => 'oria_carousel',
         'settings'  => 'carousel_cat',
         'priority'  => 11
     ) ) );
-
     //Post Type post_type e.g. post, page, revision, attachment, my-post-type
     $wp_customize->add_setting( 'carousel_post_type', array(
         'post',
@@ -257,7 +254,6 @@ function oria_customize_register( $wp_customize ) {
 	'revision',
 	'attachment'
     ) );
-
     $wp_customize->add_control( 
 	'carousel_post_type', array(
         'label'     => __('Select which post type to show in the carousel', 'oria'),
@@ -272,7 +268,22 @@ function oria_customize_register( $wp_customize ) {
 			'attachment' => 'attachment'
 		)
     ) );
+    // Selection of several Posts/Pages to show up in Carousel
+    for ( $count = 1; $count <= get_theme_mod('carousel_number'); $count++ ) {
 
+		// Add color scheme setting and control.
+		$wp_customize->add_setting( 'showcase-page-' . $count, array(
+			'default'           => '',
+			'sanitize_callback' => 'absint'
+		) );
+
+		$wp_customize->add_control( 'showcase-page-' . $count, array(
+			'label'    => __( 'Select Page to show in Carousel', 'textdomain' ),
+			'section'  => 'oria_carousel',
+			'priority'  => 13,
+			'type'     => 'dropdown-pages'
+		) );
+    };
     //Autoplay speed
     $wp_customize->add_setting(
         'carousel_speed',
@@ -287,7 +298,7 @@ function oria_customize_register( $wp_customize ) {
             'label'     => __('Enter the carousel speed in miliseconds [Default: 4000]', 'oria'),
             'section'   => 'oria_carousel',
             'type'      => 'text',
-            'priority'  => 13
+            'priority'  => 14
         )
     );
     //Number of posts
